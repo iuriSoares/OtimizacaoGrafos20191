@@ -1,7 +1,7 @@
 print ("Hello Word")
 import json
 
-g = json.load(open('data5.json'))
+g = json.load(open('data10.json'))
 
 explorada = []
 descoberta = []
@@ -37,12 +37,13 @@ def geraListaAdjacencia(grafo):
         for j in arestas: 
             if i in j: 
                 if (i == j[0]): 					
-                    aux.append(j[1])
+                    aux.append(int(j[1]))
                 else: 					
-                    aux.append(j[0])
+                    aux.append(int(j[0]))
         lista.append(aux) 
      
     return lista 
+
 
 
 def Busca(grafo, raiz):
@@ -64,6 +65,10 @@ def BuscaCompleta (grafo):
     for i in range (len(grafo["vertices"])):
         if not visitado[i]:
             Busca(grafo,i)
+
+    print(visitado)
+    print(explorada)
+    print(descoberta)
 
 
 
