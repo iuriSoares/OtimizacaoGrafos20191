@@ -81,7 +81,7 @@ def EhConexo(grafo):
 
     for i in grafo["vertices"]:
 
-        if not visitado[i]:
+        if not visitado[int(i)]:
 
             return False
 
@@ -339,6 +339,6 @@ def DeterminarDistancias(grafo, vertice):
 import time
 
 inicio = time.time()
-BuscaCompleta(g)
+EhConexo(g)
 fim = time.time()
 print(fim - inicio)
