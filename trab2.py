@@ -53,6 +53,7 @@ def Busca(grafo, raiz):
     for i in range(len(lista)):
         if visitado[i]:
             for vizinho in lista[i]:
+                vizinho -= 1
                 if not explorada[i][vizinho]:
                     explorada[i][vizinho] = True
                     if not visitado[vizinho]:
