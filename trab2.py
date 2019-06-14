@@ -3,41 +3,6 @@ import json
 
 g = json.load(open('data5.json'))
 
-
-def rotula(a):
-
-    if not(visitado[a]):
-
-        visitado[a] = True
-
-
-def geraListaAdjacencia(grafo):
-    vertices = grafo["vertices"] 	
-    arestas = grafo["arestas"] 
-    lista = [] 
-
-    for i in vertices: 		
-
-        aux = [] 
-
-        for j in arestas: 
-
-            if i in j: 
-
-                if (i == j[0]): 					
-
-                    aux.append(int(j[1]))
-
-                else: 					
-
-                    aux.append(int(j[0]))
-
-                    lista.append(aux) 
-                    print("retorno lista", lista)
-                    return lista 
-                    
-
-
 explorada = []
 descoberta = []
 linha1 = []
@@ -53,6 +18,32 @@ for i in range (len(g["vertices"])):
     descoberta.append(linha2)
     linha1 = []
     linha2 = []
+
+
+def rotula(a):
+
+    if not(visitado[a]):
+
+        visitado[a] = True
+
+
+def geraListaAdjacencia(grafo):
+    vertices = grafo["vertices"] 	
+    arestas = grafo["arestas"] 
+    lista = [] 
+
+    for i in vertices: 		
+        aux = [] 
+        for j in arestas: 
+            if i in j: 
+                if (i == j[0]): 					
+                    aux.append(j[1])
+                else: 					
+                    aux.append(j[0])
+        lista.append(aux) 
+     
+    return lista 
+
 
 def Busca(grafo, raiz):
 
@@ -345,10 +336,3 @@ inicio = time.time()
 BuscaCompleta(g)
 fim = time.time()
 print(fim - inicio)
-
-
-
-
-
-
-'''
