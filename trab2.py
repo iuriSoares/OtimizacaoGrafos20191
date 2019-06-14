@@ -12,15 +12,8 @@ def rotula(a):
 
 
 def geraListaAdjacencia(grafo):
-    print("entrei no geraListaAdjacencia") 	
-
     vertices = grafo["vertices"] 	
-
     arestas = grafo["arestas"] 
-
-    print ("vertices", vertices)
-    print ("arestas", arestas)
-
     lista = [] 
 
     for i in vertices: 		
@@ -33,11 +26,11 @@ def geraListaAdjacencia(grafo):
 
                 if (i == j[0]): 					
 
-                    aux.append(j[1]) 
+                    aux.append(int(j[1]))
 
                 else: 					
 
-                    aux.append(j[0]) 		
+                    aux.append(int(j[0]))
 
                     lista.append(aux) 
                     print("retorno lista", lista)
@@ -45,61 +38,41 @@ def geraListaAdjacencia(grafo):
                     
 
 
-explorada = [[False] * 5, [False] * 5,[False] * 5,[False] * 5,[False] * 5]
+explorada = []
+descoberta = []
+linha1 = []
+linha2 = []
+visitado = [False] * len(g["vertices"])
 
-
-visitado = [False] * 5
-
-descoberta = [[False] * 5, [False] * 5,[False] * 5,[False] * 5,[False] * 5]
-
-
-
-#[[1,4],[2,3],[],[]]
+#cria explorada e descoberta
+for i in range (len(g["vertices"])):
+    for j in range (len(g["vertices"])):
+        linha1.append(False)
+        linha2.append(False)
+    explorada.append(linha1)
+    descoberta.append(linha2)
+    linha1 = []
+    linha2 = []
 
 def Busca(grafo, raiz):
 
-    print ("Entrei na Funcao Busca")
     lista = geraListaAdjacencia(grafo)
-    #lista =  [[1,4],[2,3],[],[]]  # geraListaAdjacencia(grafo)
-    print ("lista da funcao busca", lista)
-    
-    print("raiz", raiz)
-    print ("visitado[raiz", visitado[int(raiz)])
     visitado[int(raiz)] = True
-    
-    print ("tamanho lista", len(lista))
     for i in range(len(lista)):
-
-        print("####" + str(i))
-        print('visitado [i[',visitado[i])
-
         if visitado[i]:
-
             for vizinho in lista[i]:
-                print("vizinho", vizinho)
-
                 if not explorada[i][vizinho]:
-
                     explorada[i][vizinho] = True
-
-                   
-
                     if not visitado[vizinho]:
-
                         visitado[vizinho] = True
-
                         descoberta[i][vizinho] = True
 
                     
 def BuscaCompleta (grafo):
 
     for i in range (len(grafo["vertices"])):
-        print ("index", i)
-        print ("visitado", visitado[i])
-        
         if not visitado[i]:
-
-            Busca(grafo,str(i))
+            Busca(grafo,i)
 
 
 
@@ -378,3 +351,4 @@ print(fim - inicio)
 
 
 
+'''
