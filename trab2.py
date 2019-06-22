@@ -1,7 +1,7 @@
 import json
 import random
 
-g = json.load(open('data10.json'))
+g = json.load(open('data3.json'))
 
 explorada = []
 descoberta = []
@@ -202,6 +202,42 @@ def DeterminarDistancias(grafo, vertice):
                 visitado[vizinho], distancia[vizinho] = True, niv
                 tuplaAux = (vizinho, niv+1)
                 fila.append(tuplaAux)
+
+def Dijkstra(grafo, s):
+    
+    w = [] #Lista de peso das arestas
+    linha = []
+    rd = 0 #valor do radom
+    
+    for i in range (len(g["vertices"])):
+        for j in range (len(g["vertices"])):
+            linha.append(None)
+        w.append(linha)
+        linha = []
+
+    for vw in grafo["arestas"]:#Preenchendo com pesos aleatorios
+        rd = random.random() * 100
+        w[int(vw[0]) - 1][int(vw[1]) - 1] = rd
+        w[int(vw[1]) - 1][int(vw[0]) - 1] = rd
+
+    #print(w)
+
+    d = [float('inf')]*len(grafo["vertices"]) #Distancia entre o start e o vertice
+    T = [False]*len(grafo["vertices"]) #Caminho minimo entre v e start
+    P = [None]*len(grafo["vertices"]) #Menor caminho entre v e start
+    d[s-1] = 0
+    
+    for i in grafo["vertices"]:
+            if not T[int(i)-1]:
+                u = int(i)-1
+                T[u] = True
+                for v in vizinhos(grafo, (u+1)):
+                    if d[int(v) - 1] > (w[int(v) - 1][u]+d[u]):
+                        d[int(v) - 1] = (w[int(v) - 1][u]+d[u])
+                        P[int(v) - 1] = (u+1)
+    return d, P
+    
+print(Dijkstra(g, 1))
 
 
 import time
