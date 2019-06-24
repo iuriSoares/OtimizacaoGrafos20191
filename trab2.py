@@ -1,15 +1,16 @@
 import json
-import random
 
-g = json.load(open('data3.json'))
+#carrega o grafo atraves do arquivo Json
+g = json.load(open('data8.json'))
 
+#inicia as variaveis
 explorada = []
 descoberta = []
+visitado = [False] * len(g["vertices"])
 linha1 = []
 linha2 = []
-visitado = [False] * len(g["vertices"])
 
-#cria explorada e descoberta
+#criacao das matrizes explorada e descoberta com False
 for i in range (len(g["vertices"])):
     for j in range (len(g["vertices"])):
         linha1.append(False)
@@ -19,6 +20,7 @@ for i in range (len(g["vertices"])):
     linha1 = []
     linha2 = []
 
+#retorna os vizinhos do vertice solicitado no grafo
 def vizinhos(grafo,v):
     v = str(v)
     vizinhos = []
@@ -27,10 +29,28 @@ def vizinhos(grafo,v):
         if(par.count(v) > 0):
             for x in par :
                 if(x != v):
-                    vizinhos.append(str(x))
-                    
+                    vizinhos.append(str(x))       
     return vizinhos
 
+def existe(grafo): #enquanto existir vertice visitado com aresta nao explorada
+  for a in grafo["vertices"]: #percorre vertices
+    if visitado[int(a) - 1]: #verifica se foi visitado
+      for b in vizinhos(grafo, int(a)): #percorre vizinhos
+        if not explorada[int(b)-1][int(a) - 1]: #verifica se vizinho nao foi explorado
+          return True
+  return False
+
+def Busca(grafo, raiz):
+    visitado[int(raiz)-1] = True #coloca como visitado o vertice raiz vindo do parametro da funcao
+	
+    while existe(grafo):
+        for vw in grafo["arestas"]:#percorre arestas
+            if visitado[int(vw[0]) - 1] or visitado[int(vw[1]) - 1]:#se um dos dois vertices que compoem a aresta foram visitados
+                if not explorada[int(vw[0]) - 1][int(vw[1]) - 1] or not explorada[int(vw[1]) - 1][int(vw[0]) - 1]:#e entre eles nao tiver aresta explorada
+                    explorada[int(vw[0]) - 1][int(vw[1]) - 1] = True
+                    explorada[int(vw[1]) - 1][int(vw[0]) - 1] = True
+                    if not visitado[int(vw[1]) - 1] or not visitado[int(vw[0]) - 1]:#se o outro vertice nao tiver sido visitado
+                        visitado[int(vw[0]) - 1], visitado[int(vw[1]) - 1], descoberta[int(vw[0]) - 1][int(vw[1]) - 1], descoberta[int(vw[1]) - 1][int(vw[0]) - 1] = True, True, True, True
 
 def geraListaAdjacencia(grafo):
     vertices = grafo["vertices"] 	
@@ -47,23 +67,6 @@ def geraListaAdjacencia(grafo):
         lista.append(aux) 
      
     return lista 
-
-
-def Busca(grafo, raiz):
-    countExplo = 0 #arestas exploradas
-    tamViz = len(vizinhos(grafo, raiz+1)) #quantidade de vizinhos
-    visitado[int(raiz)] = True
-    while countExplo != len(grafo["arestas"]) and tamViz != 0:
-            #vw = random.choice(grafo["arestas"]) #escolhe aresta aleatoriamente
-        for vw in g["arestas"]:
-            if visitado[int(vw[0]) - 1] or visitado[int(vw[1]) - 1]:
-                if not explorada[int(vw[0]) - 1][int(vw[1]) - 1] or not explorada[int(vw[1]) - 1][int(vw[0]) - 1]:
-                    countExplo += 1
-                    explorada[int(vw[0]) - 1][int(vw[1]) - 1] = True
-                    explorada[int(vw[1]) - 1][int(vw[0]) - 1] = True
-                    if not visitado[int(vw[1]) - 1] or not visitado[int(vw[0]) - 1]:
-                        visitado[int(vw[0]) -1], visitado[int(vw[1]) -1], descoberta[int(vw[0]) - 1][int(vw[1]) - 1], descoberta[int(vw[1]) - 1][int(vw[0]) - 1] = True, True, True, True
-
                     
 def BuscaCompleta (grafo):
     for i in range (len(grafo["vertices"])):
@@ -153,7 +156,8 @@ def BuscaProfundidade(grafo, vertice):
                 explorada[vertice][vizinho] = True
                 descoberta[vertice][vizinho]  = True
                 visitado[vizinho] = True
-                pilha.append(vizinho, PrimeiroVizinho(vizinho))    
+                aux = (vizinho, PrimeiroVizinho(vizinho)) #auxiliar para criar tupla
+                pilha.append(aux)    
     return pilha
 
 
@@ -203,45 +207,13 @@ def DeterminarDistancias(grafo, vertice):
                 tuplaAux = (vizinho, niv+1)
                 fila.append(tuplaAux)
 
-def Dijkstra(grafo, s):
-    
-    w = [] #Lista de peso das arestas
-    linha = []
-    rd = 0 #valor do radom
-    
-    for i in range (len(g["vertices"])):
-        for j in range (len(g["vertices"])):
-            linha.append(None)
-        w.append(linha)
-        linha = []
-
-    for vw in grafo["arestas"]:#Preenchendo com pesos aleatorios
-        rd = random.random() * 100
-        w[int(vw[0]) - 1][int(vw[1]) - 1] = rd
-        w[int(vw[1]) - 1][int(vw[0]) - 1] = rd
-
-    #print(w)
-
-    d = [float('inf')]*len(grafo["vertices"]) #Distancia entre o start e o vertice
-    T = [False]*len(grafo["vertices"]) #Caminho minimo entre v e start
-    P = [None]*len(grafo["vertices"]) #Menor caminho entre v e start
-    d[s-1] = 0
-    
-    for i in grafo["vertices"]:
-            if not T[int(i)-1]:
-                u = int(i)-1
-                T[u] = True
-                for v in vizinhos(grafo, (u+1)):
-                    if d[int(v) - 1] > (w[int(v) - 1][u]+d[u]):
-                        d[int(v) - 1] = (w[int(v) - 1][u]+d[u])
-                        P[int(v) - 1] = (u+1)
-    return d, P
-    
-print(Dijkstra(g, 1))
-
-
 import time
 inicio = time.time()
+Busca(g, 0)
+time.sleep(1)
 #JOGAR FUNCAO AQUI
 fim = time.time()
-#print(fim - inicio)
+print(visitado)
+print(explorada)
+print(descoberta)
+print('%0.19f' % (fim - inicio))
