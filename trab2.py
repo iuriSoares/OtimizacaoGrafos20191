@@ -1,7 +1,7 @@
 import json
 
 #carrega o grafo atraves do arquivo Json
-g = json.load(open('data8.json'))
+g = json.load(open('data3.json'))
 
 #inicia as variaveis
 explorada = []
@@ -209,7 +209,7 @@ def DeterminarDistancias(grafo, vertice):
 
 import time
 inicio = time.time()
-Busca(g, 0)
+BuscaProfundidade(g,0)
 time.sleep(1)
 #JOGAR FUNCAO AQUI
 fim = time.time()
@@ -217,3 +217,4 @@ print(visitado)
 print(explorada)
 print(descoberta)
 print('%0.19f' % (fim - inicio))
+
