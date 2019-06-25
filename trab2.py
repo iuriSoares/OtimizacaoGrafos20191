@@ -222,3 +222,4 @@ print(explorada)
 print(descoberta)
 print('%0.19f' % (fim - inicio))
 
+  
