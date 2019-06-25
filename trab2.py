@@ -162,13 +162,13 @@ def BuscaProfundidade(grafo, vertice):
 
 #FALTA TESTAR
 def BuscaProfundidade2(grafo, vertice):
-    visitado[vertice] = True
-    for vizinho in grafo["vertices"][vertice]:
-        if visitado[vizinho]:
-            if not explorada[vertice][vizinho]:
-                explorada[vertice][vizinho] = True
+    visitado[int(vertice)-1] = True
+    for vizinho in grafo["vertices"][int(vertice)]:
+        if visitado[int(vizinho)-1]:
+            if not explorada[int(vertice)-1][int(vizinho)-1]:
+                explorada[int(vertice)-1][int(vizinho)-1] = True
         else:
-            explorada[vertice][vizinho],descoberta[vertice][vizinho] = True, True
+            explorada[int(vertice)-1][int(vizinho)-1],descoberta[int(vertice)-1][int(vizinho)-1] = True, True
             BuscaProfundidade2(grafo, vizinho)
 
 
@@ -208,7 +208,7 @@ def DeterminarDistancias(grafo, vertice):
 
 import time
 inicio = time.time()
-BuscaProfundidade(g,0)
+BuscaProfundidade2(g,0)
 time.sleep(1)
 #JOGAR FUNCAO AQUI
 fim = time.time()
