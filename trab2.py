@@ -193,24 +193,27 @@ def BuscaLargura(grafo, vertice):
 #FALTA TESTAR
 def DeterminarDistancias(grafo, vertice):
     fila = []
+    visitado[vertice] = True
     distancia = [float('inf')]*len(grafo["vertices"])
-    fila.append(vertice,1)
+    listaAdjacencia = geraListaAdjacencia(grafo)
+    fila.insert(0,(vertice,1))
     while len(fila) > 0:
-        tupla = fila.pop(0)
-        for vizinho in grafo["vertices"]:
-            if visitado[vizinho]:
-                if not visitado[vertice][vizinho]:
-                    explorada[vertice][vizinho] = True
+        v, niv = fila.pop(0)
+        for w in listaAdjacencia[v]:
+            w -= 1 
+            if visitado[w]:
+                if not explorada[v][w]:
+                    explorada[v][w] = True
             else:
-                explorada[vertice][vizinho],descoberta[vertice][vizinho] = True, True
-                niv = tupla[1]
-                visitado[vizinho], distancia[vizinho] = True, niv
-                tuplaAux = (vizinho, niv+1)
-                fila.append(tuplaAux)
+                explorada[v][w],descoberta[v][w] = True, True
+                visitado[w], distancia[w] = True, niv
+                tuplaAux = (v, niv+1)
+                fila.insert(0,tuplaAux)
+    print(distancia)
 
 import time
 inicio = time.time()
-BuscaLargura(g,1)
+DeterminarDistancias(g,1)
 time.sleep(1)
 #JOGAR FUNCAO AQUI
 fim = time.time()
