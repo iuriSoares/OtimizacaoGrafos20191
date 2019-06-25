@@ -176,18 +176,20 @@ def BuscaProfundidade2(grafo, vertice):
 def BuscaLargura(grafo, vertice):
     fila = []
     visitado[vertice] = True
+    listaAdjacencia = geraListaAdjacencia(grafo)
     fila.append(vertice)
+
     while (len(fila) > 0):
-        verticeAux = fila.pop(0)
-        for vizinho in grafo["vertices"][vertice]:
-            if visitado[vizinho]:
-                if not explorada[vertice][vizinho]:
-                    explorada[vertice][vizinho] = True
+        v = fila.pop(0)
+        for w in listaAdjacencia[v]:
+            w -= 1
+            if visitado[w]:
+                if not explorada[v][w]:
+                    explorada[v][w] = True
             else:
-                explorada[vertice][vizinho],descoberta[vertice][vizinho] = True, True
-                visitado[vizinho] = True
-                fila.append(vizinho)
-                
+                explorada[v][w], descoberta[v][w] = True, True
+                visitado[w] = True
+                fila.insert(0,w)
 #FALTA TESTAR
 def DeterminarDistancias(grafo, vertice):
     fila = []
@@ -208,7 +210,7 @@ def DeterminarDistancias(grafo, vertice):
 
 import time
 inicio = time.time()
-BuscaProfundidade2(g,0)
+BuscaLargura(g,1)
 time.sleep(1)
 #JOGAR FUNCAO AQUI
 fim = time.time()
