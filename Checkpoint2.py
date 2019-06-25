@@ -211,13 +211,11 @@ def DeterminarDistancias(grafo, vertice):
                 fila.insert(0,tuplaAux)
     print(distancia)
 
-import time
-inicio = time.time()
-DeterminarDistancias(g,1)
-fim = time.time()
-print(visitado)
-print(explorada)
-print(descoberta)
-print('%0.19f' % (fim - inicio))
+
+#import time
+#inicio = time.time()
+#Inserir Funcao aqui DeterminarDistancias(g,1)
+#fim = time.time()
+#print('%0.19f' % (fim - inicio))
 
   
