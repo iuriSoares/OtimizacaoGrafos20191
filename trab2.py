@@ -124,7 +124,7 @@ def ObterFlorestaGeradora(grafo):
     return T
 
 
-#FALTA TESTAR
+#FALTA TESTAR - OK
 def BuscaProfundidade(grafo, vertice):
     def PrimeiroVizinho(vertice):
         try:
@@ -144,19 +144,18 @@ def BuscaProfundidade(grafo, vertice):
     pilha.append(tupla)
 
     while (len(pilha) > 0) :
-        tupla = pilha.pop()
-        if (tupla[1] > 0):
-            vizinho = tupla[1]
-            tuplaAux = (vertice, ProximoVizinho(vertice, vizinho))
+        v,w = pilha.pop()
+        if (w > 0):
+            tuplaAux = (v, ProximoVizinho(v, w))
             pilha.append(tuplaAux)
-            if (visitado[vizinho]):
-                if not explorada[vertice][vizinho]:
-                    explorada[vertice][vizinho] = True
+            if (visitado[w]):
+                if not explorada[v][w]:
+                    explorada[v][w] = True
             else:
-                explorada[vertice][vizinho] = True
-                descoberta[vertice][vizinho]  = True
-                visitado[vizinho] = True
-                aux = (vizinho, PrimeiroVizinho(vizinho)) #auxiliar para criar tupla
+                explorada[v][w] = True
+                descoberta[v][w]  = True
+                visitado[w] = True
+                aux = (w, PrimeiroVizinho(w)) #auxiliar para criar tupla
                 pilha.append(aux)    
     return pilha
 
